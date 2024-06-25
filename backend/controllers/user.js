@@ -70,11 +70,11 @@ export const loginAccountFun = async (req, res) => {
       },
       process.env.SCERET_KEY
     )
-    res.cookie('token', token, {
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true, // Not accessible via JavaScript
-      secure: true,
-    })
+    // res.cookie('token', token, {
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    //   httpOnly: true, // Not accessible via JavaScript
+    //   secure: true,
+    // })
 
     return res.status(200).json({
       message: 'user successfully login',

@@ -11,21 +11,21 @@ const singupSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(postData.pending, (state, action) => {
+    builder.addCase(postDataSignup.pending, (state, action) => {
       state.loading = true
     })
-    builder.addCase(postData.fulfilled, (state, action) => {
+    builder.addCase(postDataSignup.fulfilled, (state, action) => {
       state.loading = false
       state.data = action.payload
     })
-    builder.addCase(postData.rejected, (state, action) => {
+    builder.addCase(postDataSignup.rejected, (state, action) => {
       state.error = false
     })
   },
 })
 
-export const postData = createAsyncThunk(
-  'signup/postData',
+export const postDataSignup = createAsyncThunk(
+  'signup/postDataSignup',
   async (obj, { rejectWithValue }) => {
     try {
       console.log(obj)

@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { postDataLogin } from '../store/slice/auth/loginSlice'
+import ToastAlert from '../utills/toast'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { data, loading, error } = useSelector((state) => state.login)
+  const dispatch = useDispatch()
+  //   console.log(data)
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(email, password)
+    e.preventDefault()
+    dispatch(postDataLogin({ email, password }))
+    ToastAlert('Login successful', 'success')
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

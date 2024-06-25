@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
-import { postData } from '../store/slice/auth/authSlice'
+import { postDataSignup } from '../store/slice/auth/signupSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import ToastAlert from '../utills/toast'
 
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const { data, loading, error } = useSelector((state) => state.signup)
+  const navigate = useNavigate()
   console.log(data, loading, error)
   const dispatch = useDispatch()
   const handleSubmit = (e) => {
     e.preventDefault()
     // console.log(email, password, fullName)
-    dispatch(postData({ email, password, fullName }))
+    dispatch(postDataSignup({ email, password, fullName }))
+    ToastAlert('user successfully signed up', 'success')
+    navigate('/')
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
