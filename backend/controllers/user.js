@@ -3,8 +3,8 @@ import bcrypt, { hash } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 export const createAccountFun = async (req, res) => {
   try {
-    const { email, password, fullName, gender } = req.body
-    if (!fullName || !email || !password || !gender) {
+    const { email, password, fullName } = req.body
+    if (!fullName || !email || !password ) {
       return res.status(400).json({
         message: 'all the fields are  required',
         data: [],
@@ -23,7 +23,6 @@ export const createAccountFun = async (req, res) => {
       fullName,
       email,
       password: hashPassword,
-      gender,
     })
     return res.status(201).json({
       message: 'User created successfully',

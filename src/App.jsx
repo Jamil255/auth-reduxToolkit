@@ -1,16 +1,14 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import UserForm from './components/UserForm'
-import { Routes,Route}from"react-router-dom"
-
+import { Route, Routes } from "react-router-dom"
+import Signup from "./components/Signup"
+import Login from "./components/Login"
 
 const App = () => {
   return (
-    <>
-       <Navbar/>
+      <>
           <Routes>
-        <Route excat path="/" element={<UserForm />} />
-      </Routes>
+              <Route index element={<Login/> } />
+              <Route path={"/signup" } element={ <Signup/>} />
+          </Routes>
     </>
   )
 }
