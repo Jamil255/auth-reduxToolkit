@@ -6,7 +6,7 @@ const loginSlice = createSlice({
   name: 'login',
   initialState: {
     loading: false,
-    error: 'error',
+    error: 'false',
     data: [],
   },
   reducers: {},
@@ -30,7 +30,9 @@ export const postDataLogin = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       //   console.log(obj)
-      const userRes = await axios.post(`${BASE_URL}/login`, obj)
+      const userRes = await axios.post(`${BASE_URL}/login`, obj, {
+        withCredentials: true, // Important for sending cookies
+      })
       return userRes
     } catch (error) {
       // console.log(error?.response?.data?.message);
