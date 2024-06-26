@@ -42,15 +42,16 @@ export const loginAccountFun = async (req, res) => {
     const { email, password } = req.body
     if (!email || !password) {
       return res.status(400).json({
-        message: 'all the fields are  required',
+        message: 'All fields are required',
         data: [],
         status: 'error',
       })
     }
+
     const user = await userModel.findOne({ email })
     if (!user) {
       return res.status(400).json({
-        message: 'email and password incorrect',
+        message: 'Email and password incorrect',
         status: 'error',
       })
     }
@@ -58,30 +59,30 @@ export const loginAccountFun = async (req, res) => {
     const comparePassword = await bcrypt.compare(password, user?.password)
     if (!comparePassword) {
       return res.status(400).json({
-        message: 'email and password incorrect',
+        message: 'Email and password incorrect',
         status: 'error',
       })
     }
 
     const token = jwt.sign(
       {
-        _id: user._id,
+        _id: user?._id,
         email: user?.email,
       },
-      process.env.SCERET_KEY
+      process.env.SECRET_KEY,
+      { expiresIn: '1d' } // Token expiration
     )
-    //   console.log(res.cookie);
+
     res.cookie('token', token, {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: true, // Not accessible via JavaScript
-      secure: true, // Only set secure flag in production
-      sameSite: 'None', // Cross-site requests
-      domain: 'http://localhost:5173/', // Set domain if needed
-      path: '/', // Set path if needed
+      secure: false, // Only set secure flag in production
+      // path: '/', // Set path if needed
+      domain: 'http://localhost:5173', // Set domain if needed
     })
 
     return res.status(200).json({
-      message: 'user successfully login',
+      message: 'User successfully logged in',
       data: user,
       token,
       status: 'success',
