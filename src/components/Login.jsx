@@ -2,17 +2,25 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { postDataLogin } from '../store/slice/auth/loginSlice'
 import ToastAlert from '../utills/toast'
+import Cookies from 'js-cookie'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { data, loading, error } = useSelector((state) => state.login)
-    console.log(error)
+  // console.log(data?.data?.token);
   const dispatch = useDispatch()
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(postDataLogin({ email, password }))
-    ToastAlert(data?.data?.message ||error?.message, data?.data?.status || error?.status)
+    ToastAlert(
+      data?.data?.message || error?.message,
+      data?.data?.status || error?.status
+    )
+    // console.log(data?.data?.token)
+    Cookies.set('token', data?.data?.token, { expiresIn: '1d' })
+    // const cookiess = Cookies.get('token')
+    // console.log(cookiess)
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

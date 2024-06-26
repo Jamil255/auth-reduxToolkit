@@ -73,14 +73,15 @@ export const loginAccountFun = async (req, res) => {
       { expiresIn: '1d' } // Token expiration
     )
 
-    res.cookie('token', token, {
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true, // Not accessible via JavaScript
-      secure: false, // Only set secure flag in production
-      // path: '/', // Set path if needed
-      domain: 'http://localhost:5173', // Set domain if needed
-    })
-
+    // res.cookie('token', token, {
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    //   httpOnly: true, // Not accessible via JavaScript
+    //   secure: false, // Only set secure flag in production
+    //   sameSite: 'strict',
+    //   domain: 'http://localhost:5173', // Set domain if needed
+    // })
+    // const cookies = req.cookies?.token
+    // console.log(cookies)
     return res.status(200).json({
       message: 'User successfully logged in',
       data: user,

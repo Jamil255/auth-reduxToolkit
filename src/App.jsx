@@ -3,12 +3,14 @@ import Signup from './components/Signup'
 import Login from './components/Login'
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer } from 'react-toastify'
+import Home from './components/Home'
 const App = () => {
   return (
     <>
       <Routes>
         <Route index element={<Login />} />
         <Route path={'/signup'} element={<Signup />} />
+        <Route path={'/home'} element={<Home />} />
       </Routes>
 
       <ToastContainer
