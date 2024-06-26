@@ -7,12 +7,12 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { data, loading, error } = useSelector((state) => state.login)
+    console.log(error)
   const dispatch = useDispatch()
-  //   console.log(data)
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(postDataLogin({ email, password }))
-    ToastAlert('Login successful', 'success')
+    ToastAlert(data?.data?.message ||error?.message, data?.data?.status || error?.status)
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

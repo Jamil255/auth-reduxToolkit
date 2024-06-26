@@ -4,18 +4,18 @@ import jwt from 'jsonwebtoken'
 export const createAccountFun = async (req, res) => {
   try {
     const { email, password, fullName } = req.body
-    if (!fullName || !email || !password ) {
+    if (!fullName || !email || !password) {
       return res.status(400).json({
         message: 'all the fields are  required',
         data: [],
-        status: false,
+        status: 'error',
       })
     }
     const user = await userModel.findOne({ email })
     if (user !== null) {
       return res.status(400).json({
         message: 'email are already exist',
-        status: false,
+        status: 'error',
       })
     }
     const hashPassword = await bcrypt.hash(password, 12)
@@ -26,13 +26,13 @@ export const createAccountFun = async (req, res) => {
     })
     return res.status(201).json({
       message: 'User created successfully',
-      status: true,
+      status: 'success',
       data: userData,
     })
   } catch (error) {
     return res.status(500).json({
       message: error.message,
-      status: false,
+      status: 'error',
       data: [],
     })
   }
@@ -44,14 +44,14 @@ export const loginAccountFun = async (req, res) => {
       return res.status(400).json({
         message: 'all the fields are  required',
         data: [],
-        status: false,
+        status: 'error',
       })
     }
     const user = await userModel.findOne({ email })
     if (!user) {
       return res.status(400).json({
         message: 'email and password incorrect',
-        status: false,
+        status: 'error',
       })
     }
 
@@ -59,7 +59,7 @@ export const loginAccountFun = async (req, res) => {
     if (!comparePassword) {
       return res.status(400).json({
         message: 'email and password incorrect',
-        status: false,
+        status: 'error',
       })
     }
 
@@ -70,23 +70,27 @@ export const loginAccountFun = async (req, res) => {
       },
       process.env.SCERET_KEY
     )
-    // res.cookie('token', token, {
-    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
-    //   httpOnly: true, // Not accessible via JavaScript
-    //   secure: true,
-    // })
+    //   console.log(res.cookie);
+    res.cookie('token', token, {
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: true, // Not accessible via JavaScript
+      secure: true, // Only set secure flag in production
+      sameSite: 'None', // Cross-site requests
+      domain: 'http://localhost:5173/', // Set domain if needed
+      path: '/', // Set path if needed
+    })
 
     return res.status(200).json({
       message: 'user successfully login',
       data: user,
       token,
-      status: true,
+      status: 'success',
     })
   } catch (error) {
     return res.status(500).json({
       message: error.message,
       data: [],
-      status: false,
+      status: 'error',
     })
   }
 }

@@ -6,7 +6,7 @@ const loginSlice = createSlice({
   name: 'login',
   initialState: {
     loading: false,
-    error: false,
+    error: 'error',
     data: [],
   },
   reducers: {},
@@ -19,7 +19,8 @@ const loginSlice = createSlice({
       state.data = action.payload
     })
     builder.addCase(postDataLogin.rejected, (state, action) => {
-      state.error = false
+      state.error = 'error'
+      state.error = action.payload
     })
   },
 })
@@ -28,11 +29,12 @@ export const postDataLogin = createAsyncThunk(
   'login/postDataLogin',
   async (obj, { rejectWithValue }) => {
     try {
-      console.log(obj)
+      //   console.log(obj)
       const userRes = await axios.post(`${BASE_URL}/login`, obj)
       return userRes
     } catch (error) {
-      return rejectWithValue(error)
+      // console.log(error?.response?.data?.message);
+      return rejectWithValue(error?.response?.data)
     }
   }
 )
