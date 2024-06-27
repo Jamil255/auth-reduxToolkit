@@ -1,6 +1,8 @@
 import userModel from '../models/userSchema.js'
 import bcrypt, { hash } from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import Cookies from 'universal-cookie'
+
 export const createAccountFun = async (req, res) => {
   try {
     const { email, password, fullName } = req.body
@@ -72,6 +74,9 @@ export const loginAccountFun = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: '1d' } // Token expiration
     )
+    const cookies = new Cookies(req.headers.cookie, { path: '/' })
+
+    console.log(cookies.get('myCat')) // P
 
     // res.cookie('token', token, {
     //   maxAge: 24 * 60 * 60 * 1000, // 1 day

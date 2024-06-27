@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { postDataLogin } from '../store/slice/auth/loginSlice'
 import ToastAlert from '../utills/toast'
-import Cookies from 'js-cookie'
+import Cookies from 'universal-cookie'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { data, loading, error } = useSelector((state) => state.login)
-  // console.log(data?.data?.token);
+  console.log(error)
   const dispatch = useDispatch()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -18,9 +18,13 @@ const Login = () => {
       data?.data?.status || error?.status
     )
     // console.log(data?.data?.token)
-    Cookies.set('token', data?.data?.token, { expiresIn: '1d' })
+    // Cookies.set('token', data?.data?.token, { expiresIn: '1d' })
     // const cookiess = Cookies.get('token')
     // console.log(cookiess)
+    const cookies = new Cookies(null, { path: '/' })
+
+    cookies.set('myCat', 'Pacman')
+    console.log(cookies.get('myCat'))
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
