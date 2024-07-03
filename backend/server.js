@@ -10,11 +10,20 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
+    credentials: true,
   })
 )
 app.use(cookieParser())
 app.use(routes)
+
+app.get('/', (req, res) => {
+  res.cookie('jwt', 'secret', {
+    sameSite: 'strict',
+    httpOnly: true,
+    path: '/',
+  })
+})
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`)
 })
