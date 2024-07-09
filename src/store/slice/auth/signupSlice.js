@@ -12,6 +12,7 @@ const singupSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(postDataSignup.pending, (state, action) => {
+      console.log(state,action)
       state.loading = true
     })
     builder.addCase(postDataSignup.fulfilled, (state, action) => {
